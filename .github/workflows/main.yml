@@ -1,0 +1,24 @@
+name: Tailscale Native SSH
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TS_KEY }}
+          args: --ssh
+
+      - name: Set Password
+        run: echo "runner:abc12" | sudo chpasswd
+
+      - name: Hold Runner Alive
+        run: sleep 1800
+        
