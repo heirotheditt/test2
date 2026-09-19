@@ -17,10 +17,13 @@ jobs:
           authkey: ${{ secrets.TS_KEY }}
           args: --ssh
 
-      - name: Set Password
+      - name: Show SSH Info
         run: |
-          echo 'runner:abc12' | sudo chpasswd
+          echo "Tailscale IP:"
+          tailscale ip -4
+          echo
+          echo "SSH command:"
+          echo "ssh runner@$(tailscale ip -4)"
 
       - name: Keep Runner Alive
-        run: |
-          sleep 1800
+        run: tail -f /dev/null
