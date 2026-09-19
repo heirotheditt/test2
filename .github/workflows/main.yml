@@ -8,22 +8,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
       - name: Connect to Tailscale
-        uses: tailscale/github-action@v3
+        uses: tailscale/github-action@v4
         with:
           authkey: ${{ secrets.TS_KEY }}
           args: --ssh
 
-      - name: Show SSH Info
+      - name: Check Tailscale
         run: |
-          echo "Tailscale IP:"
+          tailscale status
+          echo "IP:"
           tailscale ip -4
-          echo
-          echo "SSH command:"
-          echo "ssh runner@$(tailscale ip -4)"
+          echo "SSH:"
+          tailscale ssh --help
 
       - name: Keep Runner Alive
         run: tail -f /dev/null
