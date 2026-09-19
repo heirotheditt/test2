@@ -6,6 +6,7 @@ on:
 jobs:
   ssh-runner:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -17,8 +18,9 @@ jobs:
           args: --ssh
 
       - name: Set Password
-        run: echo "runner:abc12" | sudo chpasswd
+        run: |
+          echo 'runner:abc12' | sudo chpasswd
 
-      - name: Hold Runner Alive
-        run: sleep 1800
-        
+      - name: Keep Runner Alive
+        run: |
+          sleep 1800
